@@ -1,0 +1,22 @@
+# Секреты
+*.key
+*.pem
+kubeconfig
+admin.conf
+.env
+.env.*
+!.env.example
+
+# Временные файлы
+*.tar
+*.log
+/tmp/
+kube-flannel.yml
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
