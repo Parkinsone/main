@@ -211,15 +211,15 @@ curl -s 'http://localhost:9090/api/v1/query?query=up' | python3 -m json.tool
 
 **Красивый вывод через скрипт:**
 
-./check-logs.sh # последние 20 пользовательских записей (без kube-probe)
+./check-logs.sh       # последние 20 пользовательских записей (без kube-probe)
 
 или
 
-./check-logs.sh 50 # последние 50
+./check-logs.sh 50       # последние 50
 
 или
 
-./check-logs.sh 50 all # включая kube-probe (liveness/readiness пробы)
+./check-logs.sh 50 all       # включая kube-probe (liveness/readiness пробы)
 
 ### Сделать запрос к Nginx
 kubectl exec -n default deploy/nginx -- curl -s http://localhost/
