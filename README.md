@@ -163,7 +163,7 @@ kubectl exec -n default deploy/nginx -- curl -s http://localhost/
 Ждём: Hello World!
 
 
-### Проверка мониторинга (Prometheus)
+# Проверка мониторинга (Prometheus)
 
 Можно через скрипт ./check-metrics.sh
 
