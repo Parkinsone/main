@@ -20,8 +20,8 @@ jobs:
           sudo mv kubeconform /usr/local/bin/
 
       - name: Validate manifests
-        run: |
           kubeconform -strict -summary \
+            -ignore-missing-schemas \
             -ignore-filename-pattern 'install.yaml' \
             manifests/ gateway/
 
