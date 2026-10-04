@@ -54,12 +54,18 @@
 
 Полное развёртывание одной командой:
 
+
+
 Если запускаете от обычного пользователя, у которого есть права sudo — используйте sudo ./setup.sh.
+
+
 
 git clone https://github.com/Parkinsone/main.git
 cd main
 chmod +x *.sh
 sudo ./setup.sh
+
+
 
 Или можно использовать Makefile ( Если оне предварительно скачен)
 
@@ -78,7 +84,7 @@ git clone https://github.com/Parkinsone/main
 
 cd main
 
-При необх
+При необходимости
 chmod +x install.sh init-cluster.sh deploy.sh preload-images.sh
 
 ./install.sh
@@ -138,19 +144,10 @@ kubectl get nodes
 
 ### Доступность приложения через Gateway API
 
-
-# Определите NodePort сервиса Envoy
-kubectl get svc -n envoy-gateway-system
-
 # Проверьте приложение
-curl http://<node-ip>:<nodeport>/
-# : Hello World!
 
-
-Или без NodePort:
-bash
 kubectl exec -n default deploy/nginx -- curl -s http://localhost/
-# : Hello World!
+#  Ждём: Hello World!
 
 
 ### Проверка мониторинга
