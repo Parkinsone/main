@@ -391,7 +391,7 @@ tail -f /var/log/auto-deploy.log
 
 **Полный тест CD:**
 
-
+```bash
 # 1. Внести изменение
 nano manifests/app/configmap.yaml
 # Изменить "Hello World!" → "Hello World! v2"
