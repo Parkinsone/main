@@ -13,14 +13,6 @@ data:
       static_configs:
       - targets: ['localhost:9090']
 
-    - job_name: 'kubelet'
-      scheme: https
-      tls_config:
-        insecure_skip_verify: true
-      bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-      static_configs:
-      - targets: ['192.168.48.128:10250']
-
     - job_name: 'envoy-gateway'
       static_configs:
       - targets: ['envoy-gateway.envoy-gateway-system.svc.cluster.local:19001']
