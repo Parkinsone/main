@@ -50,13 +50,37 @@
 | Fluent Bit | v3.1.0 |
 | Docker (для доставки образов) | 26.x |
 
+## Быстрый старт
+
+Полное развёртывание одной командой:
+
+Если запускаете от обычного пользователя, у которого есть права sudo — используйте sudo ./setup.sh.
+
+git clone https://github.com/Parkinsone/main.git
+cd main
+chmod +x *.sh
+sudo ./setup.sh
+
+Или можно использовать Makefile ( Если оне предварительно скачен)
+
+make install    # установка K8s
+make cluster    # создание кластера
+make preload    # доставка образов
+make deploy     # развёртывание
+make verify     # проверка
+
+
 ## Пошаговая инструкция по развёртыванию
 
 ### Шаг 1. Подготовка ОС
 
-git clone <URL_репозитория>
-cd <имя_репозитория>
+git clone https://github.com/Parkinsone/main
+
+cd main
+
+При необх
 chmod +x install.sh init-cluster.sh deploy.sh preload-images.sh
+
 ./install.sh
 
 
