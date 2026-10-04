@@ -57,7 +57,7 @@ sudo -u "$TARGET_USER" -H ./deploy.sh
 log "ЭТАП 5/6: Настройка автоматического деплоя (CD)"
 ./install-cd.sh
 
-log "ЭТАП 5/6: Финальная проверка"
+log "ЭТАП 6/6: Финальная проверка"
 echo ""
 echo "--- Поды ---"
 kubectl get pods -A | grep -vE "Running|Completed" || echo "Все поды Running"
