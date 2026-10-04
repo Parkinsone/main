@@ -406,7 +406,7 @@ tail -f /var/log/auto-deploy.log
 
 install-cd.sh              # Устанавливает cron-задачу
 auto-deploy.sh             # Cron-задача: git pull + kubectl apply
-/var/log/auto-deploy.log   # Логи CD (вне репозитория)
+/var/log/auto-deploy.log   # Логи CD 
 ```
 
 ### Дополнительные улучшения CI/CD
@@ -421,26 +421,3 @@ auto-deploy.sh             # Cron-задача: git pull + kubectl apply
 6. **Logrotate** для `/var/log/auto-deploy.log` — если накопится большой файл
 
 
-
-
-## Структура репозитория
-
-```
-.
-├── README.md
-├── .gitignore
-├── install.sh              # подготовка ОС + установка K8s
-├── init-cluster.sh         # создание кластера + Flannel
-├── deploy.sh               # развёртывание всех компонентов
-├── preload-images.sh       # доставка образов через Docker
-├── gateway/
-│   ├── install.yaml        # CRD + контроллер Envoy Gateway
-│   ├── gatewayclass.yaml
-│   ├── gateway.yaml
-│   ├── httproute.yaml
-│   └── envoyproxy.yaml     # NodePort для data plane
-└── manifests/
-    ├── app/                # Nginx
-    ├── monitoring/         # Prometheus
-    └── logging/            # Fluent Bit
-```
