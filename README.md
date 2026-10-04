@@ -142,9 +142,7 @@ kubectl get nodes
 
 ## Проверка работоспособности
 
-# Доступность приложения через Gateway API
-
-# Проверьте приложение
+#№№ Проверьте приложение
 
 kubectl exec -n default deploy/nginx -- curl -s http://localhost/
 
