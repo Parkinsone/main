@@ -152,7 +152,7 @@ kubectl exec -n default deploy/nginx -- curl -s http://localhost/
 ### Проверка мониторинга
 
 
-# Проброс порта Prometheus
+### Проброс порта Prometheus
 kubectl port-forward -n monitoring svc/prometheus 9090:9090
 
 # В другом терминале:
@@ -165,10 +165,10 @@ curl -s 'http://localhost:9090/api/v1/query?query=up' | python3 -m json.tool
 ### Проверка логирования
 
 
-# Сделать запрос к Nginx
+### Сделать запрос к Nginx
 kubectl exec -n default deploy/nginx -- curl -s http://localhost/
 
-# Посмотреть логи Fluent Bit
+### Посмотреть логи Fluent Bit
 kubectl logs -n logging -l app=fluent-bit --tail=20
 JSON с полем "log" → "GET / HTTP/1.1" 200
 
