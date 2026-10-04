@@ -87,7 +87,7 @@ Nginx → `default`, Prometheus → `monitoring`, Fluent Bit → `logging`.
 Если запускаете от обычного пользователя, у которого есть права sudo — используйте sudo ./setup.sh.
 
 
-
+```bash
 git clone https://github.com/Parkinsone/main.git
 
 cd main
@@ -95,7 +95,7 @@ cd main
 chmod +x *.sh
 
 sudo ./setup.sh
-
+```
 
 
 Или можно использовать Makefile ( Если он предварительно скачен)
@@ -111,9 +111,11 @@ make verify     # проверка
 
 ### 0. Клонирование репозитория
 
+```bash
 git clone https://github.com/Parkinsone/main.git
 cd main
 chmod +x *.sh
+```
 
 ### Шаг 1. Подготовка ОС
 
@@ -130,7 +132,9 @@ chmod +x *.sh
 
 ### Шаг 2. Создание кластера
 
+```bash
 ./init-cluster.sh
+```
 
 init-cluster.sh:
 - создаёт кластер через `kubeadm init`
@@ -141,7 +145,9 @@ init-cluster.sh:
 
 **Проверка:**
 
+```bash
 kubectl get nodes
+```
 
 Ждём: user Ready control-plane
 
@@ -161,8 +167,9 @@ kubectl get nodes
 
 ### Шаг 4. Развёртывание решения
 
-
+```bash
 ./deploy.sh
+```
 
 `deploy.sh` разворачивает:
 - Nginx (ConfigMap + Deployment + Service)
@@ -174,36 +181,52 @@ kubectl get nodes
 
 ### Проверьте приложение
 
+```bash
 kubectl exec -n default deploy/nginx -- curl -s http://localhost/
+```
 
 Ждём: Hello World!
 
 
 # Проверка мониторинга (Prometheus)
 
-Можно через скрипт ./check-metrics.sh
+Можно через скрипт:
+
+```bash
+./check-metrics.sh
+```
 
 Скрипт выводит все метрики с цветовой индикацией (✓/⚠/✗).
 
 
 **Одной командой (без port-forward):**
 
+```bash
 kubectl exec -n monitoring deploy/prometheus -- \
   wget -qO- 'http://localhost:9090/api/v1/query?query=up' | python3 -m json.tool
+```
 
 Ожидаемый вывод: 2 targets со значением `"1"` (UP):
 - `job="prometheus"` — метрики самого Prometheus
 - `job="envoy-gateway"` — метрики контроллера Envoy Gateway
 
 ### Альтернатива: проброс порта Prometheus
+
+```bash
 kubectl port-forward -n monitoring svc/prometheus 9090:9090
+```
 
 ## В другом терминале:
+
+```bash
 curl -s http://localhost:9090/-/healthy
+```
 
 Ждём: Prometheus Server is Healthy.
 
+```bash
 curl -s 'http://localhost:9090/api/v1/query?query=up' | python3 -m json.tool
+```
 
 Ждём: 2 targets со значением "1" (prometheus, envoy-gateway)
 
@@ -211,21 +234,33 @@ curl -s 'http://localhost:9090/api/v1/query?query=up' | python3 -m json.tool
 
 **Красивый вывод через скрипт:**
 
+```bash
 ./check-logs.sh       # последние 20 пользовательских записей (без kube-probe)
+```
 
 или
 
+```bash
 ./check-logs.sh 50       # последние 50
+```
 
 или
 
+```bash
 ./check-logs.sh 50 all       # включая kube-probe (liveness/readiness пробы)
+```
 
 ### Сделать запрос к Nginx
+
+```bash
 kubectl exec -n default deploy/nginx -- curl -s http://localhost/
+```
 
 ### Посмотреть логи Fluent Bit
+
+```bash
 kubectl logs -n logging -l app=fluent-bit --tail=20
+```
 
 Ждём: JSON с полем "log" → "GET / HTTP/1.1" 200
 
