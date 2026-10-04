@@ -41,7 +41,7 @@
 | Компонент | Версия |
 |---|---|
 | Ubuntu | 24.04 LTS |
-| Kubernetes | v1.30.14 |
+| Kubernetes | v1.30.14 (kubeadm) |
 | containerd | 1.7.x (из Ubuntu 24.04) |
 | Flannel CNI | v0.28.9 |
 | Nginx | stable-alpine |
@@ -49,6 +49,18 @@
 | Prometheus | v2.55.0 |
 | Fluent Bit | v3.1.0 |
 | Docker (для доставки образов) | 26.x |
+
+
+## Требования к среде
+
+- **ОС:** Ubuntu Server 24.04 LTS (чистая установка)
+- **CPU:** 4 ядра
+- **RAM:** 8 ГБ
+- **Диск:** 40 ГБ
+- **Сеть:** интернет для установки пакетов и (при наличии) скачивания образов
+- **Права:** root/sudo
+
+
 
 ## Быстрый старт
 
@@ -78,17 +90,15 @@ make verify     # проверка
 
 ## Пошаговая инструкция по развёртыванию
 
+### 0. Клонирование репозитория
+
+git clone https://github.com/Parkinsone/main.git
+cd main
+chmod +x *.sh
+
 ### Шаг 1. Подготовка ОС
 
-git clone https://github.com/Parkinsone/main
-
-cd main
-
-При необходимости
-chmod +x install.sh init-cluster.sh deploy.sh preload-images.sh
-
 ./install.sh
-
 
 `install.sh`:
 - обновляет систему
@@ -150,12 +160,21 @@ kubectl exec -n default deploy/nginx -- curl -s http://localhost/
 Ждём: Hello World!
 
 
-### Проверка мониторинга
+### Проверка мониторинга (Prometheus)
+
+Можно через скрипт ./check-metrics.sh
+
+Скрипт выводит все метрики с цветовой индикацией (✓/⚠/✗).
+
+
+**Одной командой (без port-forward):**
 
 kubectl exec -n monitoring deploy/prometheus -- \
   wget -qO- 'http://localhost:9090/api/v1/query?query=up' | python3 -m json.tool
 
-
+Ожидаемый вывод: JSON с 2 targets со значением `"1"` (UP):
+- `job="prometheus"` — метрики самого Prometheus
+- `job="envoy-gateway"` — метрики контроллера Envoy Gateway
 
 ### Алтернатива: проброс порта Prometheus
 kubectl port-forward -n monitoring svc/prometheus 9090:9090
@@ -169,8 +188,19 @@ curl -s 'http://localhost:9090/api/v1/query?query=up' | python3 -m json.tool
 
 Ждём: 2 targets со значением "1" (prometheus, envoy-gateway)
 
-### Проверка логирования
+### Проверка логирования (Fluent Bit)
 
+**Красивый вывод через скрипт:**
+
+./check-logs.sh # последние 20 пользовательских записей (без kube-probe)
+
+или
+
+./check-logs.sh 50 # последние 50
+
+или
+
+./check-logs.sh 50 all # включая kube-probe (liveness/readiness пробы)
 
 ### Сделать запрос к Nginx
 kubectl exec -n default deploy/nginx -- curl -s http://localhost/
