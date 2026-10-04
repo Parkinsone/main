@@ -41,7 +41,7 @@ log "ЭТАП 1/6: Подготовка ОС и установка Kubernetes"
 
 log "ЭТАП 2/6: Создание кластера и установка CNI"
 # init-cluster.sh запускается от пользователя, но kubectl-конфиг пишет в $HOME
-sudo -u "$$TARGET_USER" -H ./init-cluster.sh
+sudo -u "$TARGET_USER" -H ./init-cluster.sh
 
 log "ЭТАП 3/6: Доставка образов через Docker"
 ./preload-images.sh \
@@ -52,7 +52,7 @@ log "ЭТАП 3/6: Доставка образов через Docker"
   fluent/fluent-bit:3.1.0
 
 log "ЭТАП 4/6: Развёртывание всех компонентов"
-sudo -u "$$TARGET_USER" -H ./deploy.sh
+sudo -u "$TARGET_USER" -H ./deploy.sh
 
 log "ЭТАП 5/6: Настройка автоматического деплоя (CD)"
 ./install-cd.sh
