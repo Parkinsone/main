@@ -73,8 +73,11 @@
 
 
 git clone https://github.com/Parkinsone/main.git
+
 cd main
+
 chmod +x *.sh
+
 sudo ./setup.sh
 
 
