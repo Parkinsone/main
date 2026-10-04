@@ -157,9 +157,11 @@ kubectl port-forward -n monitoring svc/prometheus 9090:9090
 
 # В другом терминале:
 curl -s http://localhost:9090/-/healthy
+
 Prometheus Server is Healthy.
 
 curl -s 'http://localhost:9090/api/v1/query?query=up' | python3 -m json.tool
+
 2 targets со значением "1" (prometheus, envoy-gateway)
 
 ### Проверка логирования
@@ -170,6 +172,7 @@ kubectl exec -n default deploy/nginx -- curl -s http://localhost/
 
 ### Посмотреть логи Fluent Bit
 kubectl logs -n logging -l app=fluent-bit --tail=20
+
 JSON с полем "log" → "GET / HTTP/1.1" 200
 
 
