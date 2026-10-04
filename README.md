@@ -82,7 +82,7 @@ sudo ./setup.sh
 
 
 
-Или можно использовать Makefile ( Если оне предварительно скачен)
+Или можно использовать Makefile ( Если он предварительно скачен)
 
 make install    # установка K8s
 make cluster    # создание кластера
@@ -175,14 +175,14 @@ kubectl exec -n default deploy/nginx -- curl -s http://localhost/
 kubectl exec -n monitoring deploy/prometheus -- \
   wget -qO- 'http://localhost:9090/api/v1/query?query=up' | python3 -m json.tool
 
-Ожидаемый вывод: JSON с 2 targets со значением `"1"` (UP):
+Ожидаемый вывод: 2 targets со значением `"1"` (UP):
 - `job="prometheus"` — метрики самого Prometheus
 - `job="envoy-gateway"` — метрики контроллера Envoy Gateway
 
 ### Алтернатива: проброс порта Prometheus
 kubectl port-forward -n monitoring svc/prometheus 9090:9090
 
-# В другом терминале:
+## В другом терминале:
 curl -s http://localhost:9090/-/healthy
 
 Ждём: Prometheus Server is Healthy.
@@ -191,7 +191,7 @@ curl -s 'http://localhost:9090/api/v1/query?query=up' | python3 -m json.tool
 
 Ждём: 2 targets со значением "1" (prometheus, envoy-gateway)
 
-### Проверка логирования (Fluent Bit)
+# Проверка логирования (Fluent Bit)
 
 **Красивый вывод через скрипт:**
 
