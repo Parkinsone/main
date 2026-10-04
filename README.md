@@ -172,7 +172,7 @@ kubectl get nodes
 
 ## Проверка работоспособности
 
-#№№ Проверьте приложение
+### Проверьте приложение
 
 kubectl exec -n default deploy/nginx -- curl -s http://localhost/
 
@@ -195,7 +195,7 @@ kubectl exec -n monitoring deploy/prometheus -- \
 - `job="prometheus"` — метрики самого Prometheus
 - `job="envoy-gateway"` — метрики контроллера Envoy Gateway
 
-### Алтернатива: проброс порта Prometheus
+### Альтернатива: проброс порта Prometheus
 kubectl port-forward -n monitoring svc/prometheus 9090:9090
 
 ## В другом терминале:
