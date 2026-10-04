@@ -20,6 +20,7 @@ jobs:
           sudo mv kubeconform /usr/local/bin/
 
       - name: Validate manifests
+        run: |
           kubeconform -strict -summary \
             -ignore-missing-schemas \
             -ignore-filename-pattern 'install.yaml' \
@@ -29,5 +30,5 @@ jobs:
         run: |
           for f in *.sh; do
             bash -n "$f" || exit 1
-            echo "✓ $f"
+            echo "OK: $f"
           done
