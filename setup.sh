@@ -2,6 +2,30 @@
 # setup.sh — полное развёртывание решения с нуля
 set -euo pipefail
 
+
+# Определяем пользователя, от имени которого работать
+if [ -n "${SUDO_USER:-}" ]; then
+  TARGET_USER="$SUDO_USER"
+elif [ -n "${USER:-}" ] && [ "$USER" != "root" ]; then
+  TARGET_USER="$USER"
+else
+  TARGET_USER="$(logname 2>/dev/null || echo root)"
+fi
+
+echo "Целевой пользователь: $TARGET_USER"1~# Определяем пользователя, от имени которого работать
+if [ -n "${SUDO_USER:-}" ]; then
+  TARGET_USER="$SUDO_USER"
+elif [ -n "${USER:-}" ] && [ "$USER" != "root" ]; then
+  TARGET_USER="$USER"
+else
+  TARGET_USER="$(logname 2>/dev/null || echo root)"
+fi
+
+echo "Целевой пользователь: $TARGET_USER"
+
+
+
+
 cd "$(dirname "$0")"
 
 log() { echo ""; echo "========================================"; echo "===> $*"; echo "========================================"; }
@@ -12,14 +36,14 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-log "ЭТАП 1/5: Подготовка ОС и установка Kubernetes"
+log "ЭТАП 1/6: Подготовка ОС и установка Kubernetes"
 ./install.sh
 
-log "ЭТАП 2/5: Создание кластера и установка CNI"
+log "ЭТАП 2/6: Создание кластера и установка CNI"
 # init-cluster.sh запускается от пользователя, но kubectl-конфиг пишет в $HOME
-sudo -u "$SUDO_USER" -H ./init-cluster.sh
+sudo -u "$$TARGET_USER" -H ./init-cluster.sh
 
-log "ЭТАП 3/5: Доставка образов через Docker"
+log "ЭТАП 3/6: Доставка образов через Docker"
 ./preload-images.sh \
   nginx:stable-alpine \
   envoyproxy/gateway:v1.1.0 \
@@ -27,10 +51,13 @@ log "ЭТАП 3/5: Доставка образов через Docker"
   prom/prometheus:v2.55.0 \
   fluent/fluent-bit:3.1.0
 
-log "ЭТАП 4/5: Развёртывание всех компонентов"
-sudo -u "$SUDO_USER" -H ./deploy.sh
+log "ЭТАП 4/6: Развёртывание всех компонентов"
+sudo -u "$$TARGET_USER" -H ./deploy.sh
 
-log "ЭТАП 5/5: Финальная проверка"
+log "ЭТАП 5/6: Настройка автоматического деплоя (CD)"
+./install-cd.sh
+
+log "ЭТАП 5/6: Финальная проверка"
 echo ""
 echo "--- Поды ---"
 kubectl get pods -A | grep -vE "Running|Completed" || echo "Все поды Running"
