@@ -152,8 +152,12 @@ kubectl exec -n default deploy/nginx -- curl -s http://localhost/
 
 ### Проверка мониторинга
 
+kubectl exec -n monitoring deploy/prometheus -- \
+  wget -qO- 'http://localhost:9090/api/v1/query?query=up' | python3 -m json.tool
 
-### Проброс порта Prometheus
+
+
+### Алтернатива: проброс порта Prometheus
 kubectl port-forward -n monitoring svc/prometheus 9090:9090
 
 # В другом терминале:
