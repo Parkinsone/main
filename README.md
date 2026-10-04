@@ -389,30 +389,6 @@ tail -20 /var/log/auto-deploy.log
 tail -f /var/log/auto-deploy.log
 ```
 
-**Полный тест CD:**
-
-```bash
-# 1. Внести изменение
-nano manifests/app/configmap.yaml
-# Изменить "Hello World!" → "Hello World! v2"
-
-# 2. Закоммитить и запушить
-git add .
-git commit -m "Test CD"
-git push
-
-# 3. Подождать 5 минут или запустить вручную
-./auto-deploy.sh
-
-# 4. Проверить результат
-kubectl exec -n default deploy/nginx -- curl -s http://localhost/
-# Ожидаемо: Hello World! v2
-
-# 5. Вернуть обратно
-git revert HEAD --no-edit
-git push
-./auto-deploy.sh
-```
 
 **Ограничения CD:**
 
