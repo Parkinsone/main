@@ -47,6 +47,11 @@
    └─────────┘            └──────────────┘
 ```
 
+Компоненты: Flannel → `kube-flannel`, Envoy Gateway → `envoy-gateway-system`, 
+Nginx → `default`, Prometheus → `monitoring`, Fluent Bit → `logging`.
+
+
+
 ## Список технологий и версий
 
 | Компонент | Версия |
