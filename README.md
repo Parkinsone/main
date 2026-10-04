@@ -112,9 +112,6 @@ Nginx → `default`, Prometheus → `monitoring`, Fluent Bit → `logging`.
 
 
 
-Если запускаете от обычного пользователя, у которого есть права sudo — используйте sudo ./setup.sh.
-
-
 ```bash
 git clone https://github.com/Parkinsone/main.git
 
