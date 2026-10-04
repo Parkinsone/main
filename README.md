@@ -121,11 +121,11 @@ kubectl get nodes
 
 Если сеть блокирует Docker Hub — доставьте образы через Docker:
 
-./preload-images.sh \
-  nginx:stable-alpine \
-  envoyproxy/gateway:v1.1.0 \
-  envoyproxy/envoy:distroless-v1.31.0 \
-  prom/prometheus:v2.55.0 \
+./preload-images.sh 
+  nginx:stable-alpine 
+  envoyproxy/gateway:v1.1.0 
+  envoyproxy/envoy:distroless-v1.31.0 
+  prom/prometheus:v2.55.0 
   fluent/fluent-bit:3.1.0
 
 Если Docker Hub доступен напрямую — этот шаг **можно пропустить**, kubelet сам скачает образы.
